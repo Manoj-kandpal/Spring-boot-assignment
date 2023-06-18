@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.assignment.springboot.entity.UserEntity;
 import com.assignment.springboot.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class UserService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+//    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -30,7 +31,7 @@ public class UserService {
         try{
             return userRepository.save(user);
         }catch (Exception e) {
-            logger.error("Adding user failed!! due to -> ", e.getMessage());
+            log.error("Adding user failed!! due to -> ", e.getMessage());
             return null;
         }
     }

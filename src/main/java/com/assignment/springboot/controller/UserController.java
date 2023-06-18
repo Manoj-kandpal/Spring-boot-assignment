@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.assignment.springboot.entity.UserEntity;
 import com.assignment.springboot.kafka.JsonKafkaProducer;
 import com.assignment.springboot.kafka.StringKafkaProducer;
+import com.assignment.springboot.service.AzureKeyVaultService;
 import com.assignment.springboot.service.UserService;
 
 @RestController
@@ -29,6 +30,9 @@ public class UserController {
 
     @Autowired
     private JsonKafkaProducer jsonKafkaProducer;
+
+    @Autowired
+    private AzureKeyVaultService azureKeyVaultService;
 
 //    public UserController(UserService userService, StringKafkaProducer stringKafkaProducer) {
 //        this.userService = userService;
@@ -66,5 +70,10 @@ public class UserController {
     public ResponseEntity<String> publishJson(@RequestBody UserEntity user) {
         jsonKafkaProducer.sendMessage(user);
         return ResponseEntity.ok("Message Sent to Producer Successfully");
+    }
+
+    @GetMapping("/get-secret")
+    public String getSecretFromAzure() {
+        return azureKeyVaultService.getSecret();
     }
 }
